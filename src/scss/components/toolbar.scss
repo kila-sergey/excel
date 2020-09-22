@@ -1,4 +1,4 @@
-.excel-toolbar {
+.toolbar {
   position: absolute;
   left: 0;
   right: 0;
@@ -10,6 +10,6 @@
   display: flex;
 }
 
-.excel-toolbar__button {
+.toolbar__button {
   @include button(green);
 }

@@ -1,4 +1,4 @@
-.excel-header {
+.header {
   position: absolute;
   top: 0;
   right: 0;
@@ -9,7 +9,7 @@
   justify-content: space-between;
 }
 
-.excel-header__input {
+.header__input {
   margin: 0;
   padding: 2px 7px;
   min-width: 1px;
@@ -30,6 +30,6 @@
   }
 }
 
-.excel-header__button {
+.header__button {
   @include button(red);
 }
