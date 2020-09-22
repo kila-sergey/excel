@@ -16,7 +16,12 @@ const jsLoaders = () => {
         presets: ['@babel/preset-env'],
       },
     },
-    !isProd && 'eslint-loader',
+    !isProd && {
+      loader: require.resolve('eslint-loader'),
+      options: {
+        emitWarning: true,
+      },
+    },
   ];
   return loaders;
 };
