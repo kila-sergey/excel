@@ -6,7 +6,9 @@
     "node": true
   },
   "rules": {
-
+    "require-jsdoc": "off",
+    "constructor-super": "off",
+    "no-this-before-super": "off"
   },
   "extends": ["eslint:recommended", "google"] 
 }
