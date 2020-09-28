@@ -1,7 +1,7 @@
 import {$} from '@core/dom-helper';
 export class Excel {
   constructor(selector, options) {
-    this.$el = document.querySelector(selector);
+    this.$el = $(selector);
     this.components = options.components || [];
   }
 
@@ -11,7 +11,7 @@ export class Excel {
     this.components.forEach((Component)=>{
       const $el = $.createEl('div', Component.className);
       const component = new Component($el);
-      $el.innerHTML = component.toHtml();
+      $el.html(component.toHtml());
       $root.append($el);
     });
 
@@ -19,6 +19,6 @@ export class Excel {
   }
 
   render() {
-    this.$el.appendChild(this.getRoot('excel'));
+    this.$el.append(this.getRoot('excel'));
   }
 }
