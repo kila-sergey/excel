@@ -25,6 +25,14 @@ class Dom {
     }
   }
 
+  on(eventName, callback) {
+    this.$el.addEventListener(eventName, callback);
+  }
+
+  off(eventName, callBack) {
+    this.$el.removeEventListener(eventName, callBack);
+  }
+
   clear() {
     this.html('');
     return this;

@@ -16,4 +16,8 @@ export class Formula extends ExcelComponent {
       <div class="formula__input" contenteditable spellcheck="false"></div>
     `;
   }
+
+  onClick(e) {
+    console.log('click', this.name);
+  }
 }
