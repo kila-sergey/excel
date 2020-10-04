@@ -3,7 +3,9 @@
   left: 0;
   right: 0;
   top: $header-height + $toolbar-height + $formula-height;
-  overflow-x: auto;
+  max-width: 100vw;
+  max-height: calc(100vh - #{$header-height} - #{$toolbar-height} - #{$formula-height});
+  overflow: auto;
   padding-bottom: 2px;
 }
 
