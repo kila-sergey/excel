@@ -5,6 +5,7 @@ const createRow = (rowNumber, content) => {
     <div class="row">
       <div class="row-info">
         ${rowNumber ? rowNumber : ''}
+        ${rowNumber ? '<div class="row__resize" data-resize="row"></div>' : ''}
       </div>
       <div class="row-data">
         ${content}
@@ -17,6 +18,7 @@ const createCol = (char) => {
   return `
     <div class="column">
       ${char}
+      <div class="column__resize" data-resize="col"></div>
     </div>
   `;
 };
