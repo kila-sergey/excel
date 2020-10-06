@@ -33,6 +33,14 @@ class Dom {
     this.$el.removeEventListener(eventName, callBack);
   }
 
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  getCords() {
+    return this.$el.getBoundingClientRect();
+  }
+
   clear() {
     this.html('');
     return this;
