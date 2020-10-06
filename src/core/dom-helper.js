@@ -21,7 +21,7 @@ class Dom {
     if (Element.prototype.append) {
       this.$el.append(node);
     } else {
-      this.$el.appendChild(node);
+      this.$el.appendChi; ld(node);
     }
   }
 
@@ -33,6 +33,17 @@ class Dom {
     this.$el.removeEventListener(eventName, callBack);
   }
 
+  get style() {
+    return this.$el.style;
+  }
+
+  get data() {
+    return this.$el.dataset;
+  }
+
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector);
+  }
   closest(selector) {
     return $(this.$el.closest(selector));
   }

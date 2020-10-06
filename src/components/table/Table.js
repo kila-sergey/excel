@@ -1,6 +1,8 @@
 import {ExcelComponent} from '../../core/ExcelComponent';
 import {createTable} from './table.template';
 import {$} from '../../core/dom-helper';
+
+import {RESIZABLE_TYPES} from '../../constants/constants';
 export class Table extends ExcelComponent {
   static className = 'table';
 
@@ -15,13 +17,18 @@ export class Table extends ExcelComponent {
   onMousedown(e) {
     if (e.target.dataset.resize) {
       const $target = $(e.target);
-      const $resizable = $target.closest('[data-type="resizable"]');
-      const cords = $resizable.getCords();
+      const $resizableRoot = $target.closest('[data-type="resizable"]');
+      const isColumn = $target.data.resize === RESIZABLE_TYPES.COL;
+      const resizableNumber= isColumn ? $resizableRoot.data.col : $resizableRoot.data.row;
+      const cords = $resizableRoot.getCords();
+      const resizableElements = this.$root.findAll(`[data-${isColumn ? 'col' : 'row'}="${resizableNumber}"]`);
+
       document.onmousemove = (e) => {
-        const delta = e.pageX - cords.right;
-        const width = delta + cords.width;
-        $resizable.$el.style.width = `${width}px`;
+        const delta = e[isColumn ? 'pageX' : 'pageY'] - cords[isColumn ? 'right' : 'bottom'];
+        const totalSize = delta + cords[isColumn ? 'width' : 'height'];
+        resizableElements.forEach((item)=>item.style[isColumn ? 'width' : 'height'] = `${totalSize}px`);
       };
+
       document.onmouseup = () => {
         document.onmousemove = null;
       };
@@ -36,3 +43,6 @@ export class Table extends ExcelComponent {
     return createTable(40);
   }
 }
+
+// 314 msScripting
+// 3898 msRendering

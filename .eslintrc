@@ -8,7 +8,8 @@
   "rules": {
     "require-jsdoc": "off",
     "constructor-super": "off",
-    "no-this-before-super": "off"
+    "no-this-before-super": "off",
+    "max-len": [2, 120]
   },
   "extends": ["eslint:recommended", "google"] 
 }

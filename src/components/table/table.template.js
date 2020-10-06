@@ -2,7 +2,7 @@ import {CODES} from '../../constants/constants';
 
 const createRow = (rowNumber, content) => {
   return `
-    <div class="row" data-type="resizable">
+    <div class="row" data-type="resizable" data-row=${rowNumber}>
       <div class="row-info">
         ${rowNumber ? rowNumber : ''}
         ${rowNumber ? '<div class="row__resize" data-resize="row"></div>' : ''}
@@ -14,18 +14,18 @@ const createRow = (rowNumber, content) => {
   `;
 };
 
-const createCol = (char) => {
+const createCol = (char, number) => {
   return `
-    <div class="column" data-type="resizable">
+    <div class="column" data-type="resizable" data-col=${number}>
       ${char}
       <div class="column__resize" data-resize="col"></div>
     </div>
   `;
 };
 
-const createCell = () => {
+const createCell = (colNumber) => {
   return `
-    <div class="cell" contenteditable></div>
+    <div class="cell" contenteditable data-col=${colNumber}></div>
   `;
 };
 
@@ -40,12 +40,12 @@ export const createTable = (rowsCount = 15) => {
   const cols = new Array(colsCount)
       .fill('')
       .map((_, id)=>createChar(CODES.A + id))
-      .map((char)=>createCol(char))
+      .map((char, id)=>createCol(char, id))
       .join('');
 
   const cells = new Array(colsCount)
       .fill('')
-      .map((_, id) =>createCell())
+      .map((_, id) =>createCell(id))
       .join('');
 
   rowsArray.push(createRow(null, cols));
