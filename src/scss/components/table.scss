@@ -4,7 +4,9 @@
   right: 0;
   top: $header-height + $toolbar-height + $formula-height;
   max-width: 100vw;
-  max-height: calc(100vh - #{$header-height} - #{$toolbar-height} - #{$formula-height});
+  max-height: calc(
+    100vh - #{$header-height} - #{$toolbar-height} - #{$formula-height}
+  );
   overflow: auto;
   padding-bottom: 2px;
 }
@@ -26,6 +28,7 @@
   border: 1px solid $border-color;
   background: #f8f9fa;
   border-top: none;
+  user-select: none;
 }
 
 .row-data {
@@ -44,6 +47,7 @@
   border-top: 0;
   border-left: 0;
   height: 100%;
+  user-select: none;
 }
 
 .column__resize,
@@ -53,7 +57,7 @@
   opacity: 0;
   transition: opacity $speed;
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     background-color: $blue;
   }
@@ -63,11 +67,11 @@
 }
 
 .column__resize {
-  top:0;
-  right:-5px;
+  top: 0;
+  right: -5px;
   width: 10px;
-  height:100%;
-  &:after{
+  height: 100%;
+  &:after {
     width: 2px;
     height: 100%;
     left: 50%;
@@ -83,10 +87,10 @@
   left: 0;
   width: 100%;
   height: 10px;
-  &:after{
+  &:after {
     height: 2px;
     width: 100%;
-    top:50%;
+    top: 50%;
     transform: translateY(-50%);
   }
   &:hover {
@@ -105,8 +109,7 @@
   color: #111;
   white-space: nowrap;
   outline: none;
-
-
+  overflow: hidden;
   &.selected {
     border: none;
     outline: 2px solid $blue;

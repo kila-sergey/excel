@@ -9,10 +9,9 @@ export class Table extends ExcelComponent {
   constructor($root) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown'],
+      listeners: ['mousedown', 'mouseup'],
     });
   }
-
 
   onMousedown(e) {
     if (e.target.dataset.resize) {
@@ -22,21 +21,23 @@ export class Table extends ExcelComponent {
       const resizableNumber= isColumn ? $resizableRoot.data.col : $resizableRoot.data.row;
       const cords = $resizableRoot.getCords();
       const resizableElements = this.$root.findAll(`[data-${isColumn ? 'col' : 'row'}="${resizableNumber}"]`);
+      let totalSize;
 
       document.onmousemove = (e) => {
         const delta = e[isColumn ? 'pageX' : 'pageY'] - cords[isColumn ? 'right' : 'bottom'];
-        const totalSize = delta + cords[isColumn ? 'width' : 'height'];
-        resizableElements.forEach((item)=>item.style[isColumn ? 'width' : 'height'] = `${totalSize}px`);
+        totalSize = delta + cords[isColumn ? 'width' : 'height'];
       };
 
       document.onmouseup = () => {
+        resizableElements.forEach((item)=>item.css(isColumn?
+          {width: `${totalSize}px`}:
+          {height: `${totalSize}px`}));
         document.onmousemove = null;
       };
     }
   }
 
   onMouseup() {
-    console.log('mouseup');
   }
 
   toHtml() {
@@ -44,5 +45,4 @@ export class Table extends ExcelComponent {
   }
 }
 
-// 314 msScripting
-// 3898 msRendering
+

@@ -37,13 +37,22 @@ class Dom {
     return this.$el.style;
   }
 
+  css(cssObject={}) {
+    Object.keys(cssObject).forEach(((property)=>{
+      this.$el.style[property]=cssObject[property];
+    }));
+  }
+
   get data() {
     return this.$el.dataset;
   }
 
   findAll(selector) {
-    return this.$el.querySelectorAll(selector);
+    const items = [];
+    this.$el.querySelectorAll(selector).forEach((item)=>items.push($(item)));
+    return items;
   }
+
   closest(selector) {
     return $(this.$el.closest(selector));
   }
