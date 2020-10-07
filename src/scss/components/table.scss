@@ -64,6 +64,9 @@
   &:hover {
     opacity: 1;
   }
+  &.visible {
+    opacity: 1;
+  }
 }
 
 .column__resize {
@@ -80,6 +83,10 @@
   &:hover {
     cursor: col-resize;
   }
+  &.visible {
+    height: 100vh;
+    
+  }
 }
 
 .row__resize {
@@ -95,6 +102,9 @@
   }
   &:hover {
     cursor: row-resize;
+  }
+  &.visible {
+    width: 100vw;
   }
 }
 

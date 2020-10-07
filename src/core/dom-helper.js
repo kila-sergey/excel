@@ -47,10 +47,24 @@ class Dom {
     return this.$el.dataset;
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector));
+  }
+
   findAll(selector) {
     const items = [];
     this.$el.querySelectorAll(selector).forEach((item)=>items.push($(item)));
     return items;
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className);
+  }
+
+  removeClass(className) {
+    if (this.$el.classList.contains(className)) {
+      this.$el.classList.remove(className);
+    }
   }
 
   closest(selector) {

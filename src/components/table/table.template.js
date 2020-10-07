@@ -5,7 +5,10 @@ const createRow = (rowNumber, content) => {
     <div class="row" data-type="resizable" data-row=${rowNumber}>
       <div class="row-info">
         ${rowNumber ? rowNumber : ''}
-        ${rowNumber ? '<div class="row__resize" data-resize="row"></div>' : ''}
+        ${rowNumber ?
+          `<div class="row__resize" data-resize="row">
+            <div class="row__resize-toggler" data-resizer="row"></div>
+          </div>` : ''}
       </div>
       <div class="row-data">
         ${content}
