@@ -16,7 +16,7 @@ class Dom {
     if (Element.prototype.append) {
       this.$el.append(node);
     } else {
-      this.$el.appendChi; ld(node);
+      this.$el.appendChild(node);
     }
   }
 
