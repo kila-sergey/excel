@@ -5,13 +5,8 @@ class Dom {
     selector;
   }
 
-  html(html) {
-    if (typeof html === 'string') {
-      this.$el.innerHTML = html;
-      return this;
-    } else {
-      return this.$el.outerHTML.trim();
-    }
+  addClass(className) {
+    this.$el.classList.add(className);
   }
 
   append(node) {
@@ -25,26 +20,19 @@ class Dom {
     }
   }
 
-  on(eventName, callback) {
-    this.$el.addEventListener(eventName, callback);
-  }
-
-  off(eventName, callBack) {
-    this.$el.removeEventListener(eventName, callBack);
-  }
-
-  get style() {
-    return this.$el.style;
-  }
-
   css(cssObject={}) {
     Object.keys(cssObject).forEach(((property)=>{
       this.$el.style[property]=cssObject[property];
     }));
   }
 
-  get data() {
-    return this.$el.dataset;
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  clear() {
+    this.html('');
+    return this;
   }
 
   find(selector) {
@@ -57,8 +45,21 @@ class Dom {
     return items;
   }
 
-  addClass(className) {
-    this.$el.classList.add(className);
+  html(html) {
+    if (typeof html === 'string') {
+      this.$el.innerHTML = html;
+      return this;
+    } else {
+      return this.$el.outerHTML.trim();
+    }
+  }
+
+  on(eventName, callback) {
+    this.$el.addEventListener(eventName, callback);
+  }
+
+  off(eventName, callBack) {
+    this.$el.removeEventListener(eventName, callBack);
   }
 
   removeClass(className) {
@@ -67,17 +68,16 @@ class Dom {
     }
   }
 
-  closest(selector) {
-    return $(this.$el.closest(selector));
-  }
-
   getCords() {
     return this.$el.getBoundingClientRect();
   }
 
-  clear() {
-    this.html('');
-    return this;
+  get data() {
+    return this.$el.dataset;
+  }
+
+  get style() {
+    return this.$el.style;
   }
 }
 export function $(selector) {
