@@ -26,9 +26,9 @@ const createCol = (char, number) => {
   `;
 };
 
-const createCell = (colNumber) => {
+const createCell = (colNumber, rowNumber) => {
   return `
-    <div class="cell" contenteditable data-col=${colNumber}></div>
+    <div class="cell" contenteditable data-col=${colNumber} data-id="${colNumber}-${rowNumber}"></div>
   `;
 };
 
@@ -46,15 +46,14 @@ export const createTable = (rowsCount = 15) => {
       .map((char, id)=>createCol(char, id))
       .join('');
 
-  const cells = new Array(colsCount)
-      .fill('')
-      .map((_, id) =>createCell(id))
-      .join('');
-
   rowsArray.push(createRow(null, cols));
 
-  for (let i=0; i<rowsCount; i++) {
-    rowsArray.push(createRow(i+1, cells));
+  for (let row=0; row<rowsCount; row++) {
+    const cells = new Array(colsCount)
+        .fill('')
+        .map((_, col) =>createCell(col, row))
+        .join('');
+    rowsArray.push(createRow(row+1, cells));
   }
 
   return rowsArray.join('');
