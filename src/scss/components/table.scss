@@ -16,10 +16,15 @@
   flex-direction: row;
   min-height: 20px;
   height: $row-height;
+  &:first-child {
+    position: sticky;
+    top: 0;
+  }
 }
 
 .row-info {
-  position: relative;
+  position: sticky;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,7 +90,6 @@
   }
   &.visible {
     height: 100vh;
-    
   }
 }
 
