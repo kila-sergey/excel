@@ -5,13 +5,8 @@ class Dom {
     selector;
   }
 
-  html(html) {
-    if (typeof html === 'string') {
-      this.$el.innerHTML = html;
-      return this;
-    } else {
-      return this.$el.outerHTML.trim();
-    }
+  addClass(className) {
+    this.$el.classList.add(className);
   }
 
   append(node) {
@@ -25,6 +20,40 @@ class Dom {
     }
   }
 
+  css(cssObject={}) {
+    Object.keys(cssObject).forEach(((property)=>{
+      this.$el.style[property]=cssObject[property];
+    }));
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  clear() {
+    this.html('');
+    return this;
+  }
+
+  find(selector) {
+    return $(this.$el.querySelector(selector));
+  }
+
+  findAll(selector) {
+    const items = [];
+    this.$el.querySelectorAll(selector).forEach((item)=>items.push($(item)));
+    return items;
+  }
+
+  html(html) {
+    if (typeof html === 'string') {
+      this.$el.innerHTML = html;
+      return this;
+    } else {
+      return this.$el.outerHTML.trim();
+    }
+  }
+
   on(eventName, callback) {
     this.$el.addEventListener(eventName, callback);
   }
@@ -33,9 +62,22 @@ class Dom {
     this.$el.removeEventListener(eventName, callBack);
   }
 
-  clear() {
-    this.html('');
-    return this;
+  removeClass(className) {
+    if (this.$el.classList.contains(className)) {
+      this.$el.classList.remove(className);
+    }
+  }
+
+  getCords() {
+    return this.$el.getBoundingClientRect();
+  }
+
+  get data() {
+    return this.$el.dataset;
+  }
+
+  get style() {
+    return this.$el.style;
   }
 }
 export function $(selector) {

@@ -4,7 +4,9 @@
   right: 0;
   top: $header-height + $toolbar-height + $formula-height;
   max-width: 100vw;
-  max-height: calc(100vh - #{$header-height} - #{$toolbar-height} - #{$formula-height});
+  max-height: calc(
+    100vh - #{$header-height} - #{$toolbar-height} - #{$formula-height}
+  );
   overflow: auto;
   padding-bottom: 2px;
 }
@@ -17,6 +19,7 @@
 }
 
 .row-info {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +28,7 @@
   border: 1px solid $border-color;
   background: #f8f9fa;
   border-top: none;
+  user-select: none;
 }
 
 .row-data {
@@ -32,6 +36,7 @@
 }
 
 .column {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,6 +47,65 @@
   border-top: 0;
   border-left: 0;
   height: 100%;
+  user-select: none;
+}
+
+.column__resize,
+.row__resize {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity $speed;
+  &:after {
+    content: "";
+    position: absolute;
+    background-color: $blue;
+  }
+  &:hover {
+    opacity: 1;
+  }
+  &.visible {
+    opacity: 1;
+  }
+}
+
+.column__resize {
+  top: 0;
+  right: -5px;
+  width: 10px;
+  height: 100%;
+  &:after {
+    width: 2px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &:hover {
+    cursor: col-resize;
+  }
+  &.visible {
+    height: 100vh;
+    
+  }
+}
+
+.row__resize {
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  &:after {
+    height: 2px;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &:hover {
+    cursor: row-resize;
+  }
+  &.visible {
+    width: 100vw;
+  }
 }
 
 .cell {
@@ -55,11 +119,10 @@
   color: #111;
   white-space: nowrap;
   outline: none;
-
-
+  overflow: hidden;
   &.selected {
     border: none;
-    outline: 2px solid #3c74ff;
+    outline: 2px solid $blue;
     z-index: 2;
   }
 }
