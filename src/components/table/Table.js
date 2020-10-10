@@ -1,9 +1,9 @@
 import {ExcelComponent} from '../../core/ExcelComponent';
 import {createTable} from './table.template';
 import {resizeHandler} from './table.resize';
-import {shouldResize} from '../../helpers/table.helpers';
+import {shouldResize, shouldSelect, shouldSelectGroup} from '../../helpers/table.helpers';
 import TableSelection from './TableSelection';
-
+import {$} from '../../core/dom-helper';
 export class Table extends ExcelComponent {
   static className = 'table';
 
@@ -27,6 +27,13 @@ export class Table extends ExcelComponent {
   onMousedown(e) {
     if (shouldResize(e)) {
       resizeHandler(e, this.$root);
+    }
+    if (shouldSelect(e)) {
+      const $selectable = $(e.target);
+      this.selection.select($selectable);
+    }
+    if (shouldSelectGroup(e)) {
+      console.log('select');
     }
   }
 

@@ -28,7 +28,7 @@ const createCol = (char, number) => {
 
 const createCell = (colNumber, rowNumber) => {
   return `
-    <div class="cell" contenteditable data-col=${colNumber} data-id="${colNumber}-${rowNumber}"></div>
+    <div class="cell" contenteditable data-col=${colNumber} data-id="${colNumber}-${rowNumber}" data-type="cell"></div>
   `;
 };
 

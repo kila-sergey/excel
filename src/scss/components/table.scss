@@ -19,11 +19,19 @@
   &:first-child {
     position: sticky;
     top: 0;
+    z-index: 10;
+    margin-bottom: 1px;
+    .row-info {
+      border-top: 0;
+    }
+  }
+  + .row {
+    margin-top: -1px;
   }
 }
 
 .row-info {
-  position: sticky;
+  position: relative;
   left: 0;
   display: flex;
   justify-content: center;
@@ -32,7 +40,7 @@
   height: 100%;
   border: 1px solid $border-color;
   background: #f8f9fa;
-  border-top: none;
+  border-right: none;
   user-select: none;
 }
 
@@ -50,15 +58,18 @@
   width: $cell-width;
   border: 1px solid $border-color;
   border-top: 0;
-  border-left: 0;
   height: 100%;
   user-select: none;
+  + .column {
+    margin-left: -1px;
+    border-right: 0;
+  }
 }
 
 .column__resize,
 .row__resize {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   opacity: 0;
   transition: opacity $speed;
   &:after {
@@ -113,20 +124,22 @@
 }
 
 .cell {
+  position: relative;
   min-width: 40px;
   padding: 5px;
   width: $cell-width;
   height: 100%;
-  border: 1px solid #e2e3e3;
-  border-top: 0;
-  border-left: 0;
+  border: 1px solid $border-color;
   color: #111;
   white-space: nowrap;
   outline: none;
   overflow: hidden;
+  + .cell {
+    margin-left: -1px;
+    border-left: 0;
+  }
   &.selected {
-    border: none;
-    outline: 2px solid $blue;
-    z-index: 2;
+    border: 1px solid $blue;
+    z-index: 1;
   }
 }

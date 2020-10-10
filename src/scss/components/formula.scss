@@ -10,9 +10,13 @@
 }
 
 .formula__mark {
+  margin-left: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   font-size: 18px;
   font-style: italic;
-  text-align: center;
   border-right: 1px solid $border-color;
   min-width: $info-cell-width;
 }
