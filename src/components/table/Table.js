@@ -1,7 +1,7 @@
 import {ExcelComponent} from '../../core/ExcelComponent';
 import {createTable} from './table.template';
 import {resizeHandler} from './table.resize';
-import {shouldResize, shouldSelect, shouldSelectGroup} from '../../helpers/table.helpers';
+import {shouldResize, shouldSelect, shouldSelectGroup, cellsMatrix} from '../../helpers/table.helpers';
 import TableSelection from './TableSelection';
 import {$} from '../../core/dom-helper';
 export class Table extends ExcelComponent {
@@ -29,11 +29,17 @@ export class Table extends ExcelComponent {
       resizeHandler(e, this.$root);
     }
     if (shouldSelect(e)) {
-      const $selectable = $(e.target);
-      this.selection.select($selectable);
-    }
-    if (shouldSelectGroup(e)) {
-      console.log('select');
+      const $target = $(e.target);
+      if (shouldSelectGroup(e)) {
+        const $currentTargetId = this.selection.current.id(true);
+        const $targetId = $target.id(true);
+
+        const cellsToSelect = cellsMatrix($currentTargetId, $targetId, this.$root);
+
+        this.selection.selectGroup(cellsToSelect);
+      } else {
+        this.selection.select($target);
+      }
     }
   }
 
@@ -46,3 +52,12 @@ export class Table extends ExcelComponent {
 }
 
 
+const range = (start, end) => {
+  if (start > end) {
+    [end, start] = [start, end];
+  }
+  const range = new Array(end - start + 1)
+      .fill('')
+      .map((_, id)=>start + id);
+  return range;
+};

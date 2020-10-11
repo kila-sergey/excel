@@ -35,6 +35,17 @@ class Dom {
     return this;
   }
 
+  id(shouldParse) {
+    if (shouldParse) {
+      const id= this.id().split('-');
+      return {
+        col: +id[0],
+        row: +id[1],
+      };
+    }
+    return this.data.id;
+  }
+
   find(selector) {
     return $(this.$el.querySelector(selector));
   }
