@@ -9,7 +9,7 @@ class TableSelection {
   select($el) {
     this.clear();
     this.selected.push($el);
-    $el.addClass(SELECTED_CELL_CLASS);
+    $el.addClass(SELECTED_CELL_CLASS).focus();
     this.current = $el;
   }
 
@@ -17,6 +17,13 @@ class TableSelection {
     this.clear();
     this.selected = [...this.selected, ...elementsArray];
     this.selected.forEach(($el) => $el.addClass(SELECTED_CELL_CLASS));
+  }
+
+
+  selectMultiple($el) {
+    this.selected.push($el);
+    this.selected.forEach((el)=> el.addClass(SELECTED_CELL_CLASS));
+    this.current = $el;
   }
 
   clear() {

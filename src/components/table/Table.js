@@ -1,7 +1,10 @@
 import {ExcelComponent} from '../../core/ExcelComponent';
 import {createTable} from './table.template';
 import {resizeHandler} from './table.resize';
-import {shouldResize, shouldSelect, shouldSelectGroup, cellsMatrix} from '../../helpers/table.helpers';
+import {
+  shouldResize, shouldSelect, shouldSelectGroup, shouldSelectMultiple,
+  shouldSelectLeft, shouldSelectRight, cellsMatrix,
+} from '../../helpers/table.helpers';
 import TableSelection from './TableSelection';
 import {$} from '../../core/dom-helper';
 export class Table extends ExcelComponent {
@@ -10,7 +13,7 @@ export class Table extends ExcelComponent {
   constructor($root) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'mouseup'],
+      listeners: ['mousedown', 'keydown'],
     });
   }
 
@@ -37,13 +40,32 @@ export class Table extends ExcelComponent {
         const cellsToSelect = cellsMatrix($currentTargetId, $targetId, this.$root);
 
         this.selection.selectGroup(cellsToSelect);
+      } else if (shouldSelectMultiple(e)) {
+        this.selection.selectMultiple($target);
       } else {
         this.selection.select($target);
       }
     }
   }
 
-  onMouseup() {
+  onKeydown(e) {
+    const $target = this.selection.current;
+    if (shouldSelectLeft(e)) {
+      e.preventDefault();
+      const currentTargetRow = $target.id(true).row;
+      const currentTargetCol = $target.id(true).col === 0 ? $target.id(true).col : $target.id(true).col - 1;
+      const currentTargetId = `${currentTargetCol}-${currentTargetRow}`;
+      const $currentTarget = this.$root.find(`[data-id="${currentTargetId}"]`);
+      this.selection.select($currentTarget);
+    }
+    if (shouldSelectRight(e)) {
+      e.preventDefault();
+      const currentTargetRow = $target.id(true).row;
+      const currentTargetCol = $target.id(true).col === 0 ? $target.id(true).col : $target.id(true).col + 1;
+      const currentTargetId = `${currentTargetCol}-${currentTargetRow}`;
+      const $currentTarget = this.$root.find(`[data-id="${currentTargetId}"]`);
+      this.selection.select($currentTarget);
+    }
   }
 
   toHtml() {
@@ -52,12 +74,3 @@ export class Table extends ExcelComponent {
 }
 
 
-const range = (start, end) => {
-  if (start > end) {
-    [end, start] = [start, end];
-  }
-  const range = new Array(end - start + 1)
-      .fill('')
-      .map((_, id)=>start + id);
-  return range;
-};

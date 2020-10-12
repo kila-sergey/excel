@@ -1,3 +1,5 @@
+import {KEY_CODES} from '../constants/constants';
+
 export const shouldResize = (e) => {
   return !!e.target.dataset.resize;
 };
@@ -8,6 +10,18 @@ export const shouldSelect = (e) => {
 
 export const shouldSelectGroup = (e) => {
   return e.shiftKey === true;
+};
+
+export const shouldSelectMultiple = (e) => {
+  return e.ctrlKey === true;
+};
+
+export const shouldSelectLeft = (e) => {
+  return e.keyCode === KEY_CODES.LEFT || (e.keyCode === KEY_CODES.TAB && e.shiftKey === true);
+};
+
+export const shouldSelectRight = (e) => {
+  return e.keyCode === KEY_CODES.RIGHT || (e.keyCode === KEY_CODES.TAB && e.shiftKey === false);
 };
 
 export const cellsMatrix = ($currentTargetId, $targetId, $root) => {

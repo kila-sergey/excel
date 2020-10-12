@@ -7,6 +7,7 @@ class Dom {
 
   addClass(className) {
     this.$el.classList.add(className);
+    return this.$el;
   }
 
   append(node) {
@@ -56,6 +57,10 @@ class Dom {
     return items;
   }
 
+  focus() {
+    this.$el.focus();
+  }
+
   html(html) {
     if (typeof html === 'string') {
       this.$el.innerHTML = html;
@@ -77,6 +82,7 @@ class Dom {
     if (this.$el.classList.contains(className)) {
       this.$el.classList.remove(className);
     }
+    return this.$el;
   }
 
   getCords() {
