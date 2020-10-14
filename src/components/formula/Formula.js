@@ -3,10 +3,11 @@ import {ExcelComponent} from '../../core/ExcelComponent';
 export class Formula extends ExcelComponent {
   static className = 'formula';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'Formula',
-      listeners: ['click'],
+      listeners: ['click', 'input'],
+      ...options,
     });
   }
 
@@ -19,5 +20,10 @@ export class Formula extends ExcelComponent {
 
   onClick(e) {
     console.log('click', this.name);
+  }
+
+  onInput(e) {
+    const text = e.target.textContent;
+    this.emiter.emit('formula_check', text);
   }
 }

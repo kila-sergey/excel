@@ -1,8 +1,10 @@
 import {$} from '@core/dom-helper';
+import Emiter from '../../core/Emiter';
 export class Excel {
   constructor(selector, options) {
     this.$el = $(selector);
     this.components = options.components || [];
+    this.emiter = new Emiter();
   }
 
   // Get html template
@@ -11,7 +13,9 @@ export class Excel {
 
     this.components = this.components.map((Component)=>{
       const $el = $.createEl('div', Component.className);
-      const component = new Component($el);
+      const component = new Component($el, {
+        emiter: this.emiter,
+      });
 
       // Debug
       window[`c${component.name}`] = component;

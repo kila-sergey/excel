@@ -3,18 +3,21 @@ import {createTable} from './table.template';
 import {resizeHandler} from './table.resize';
 import {
   shouldResize, shouldSelect, shouldSelectGroup, shouldSelectMultiple,
-  shouldSelectLeft, shouldSelectRight, cellsMatrix,
+  shouldSelectByKeyPress, shouldSelectByShiftTab, cellsMatrix, getNextIdByKeycode,
 } from '../../helpers/table.helpers';
 import TableSelection from './TableSelection';
 import {$} from '../../core/dom-helper';
 export class Table extends ExcelComponent {
   static className = 'table';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'Table',
       listeners: ['mousedown', 'keydown'],
+      ...options,
     });
+    this.rowsLength = 40;
+    this.colsLength = 26;
   }
 
   prepare() {
@@ -25,6 +28,7 @@ export class Table extends ExcelComponent {
     super.init();
     const selectedCell = this.$root.find('[data-id="0-0"]');
     this.selection.select(selectedCell);
+    this.emiter.subscribe('formula_check', (text)=>this.selection.current.text(text));
   }
 
   onMousedown(e) {
@@ -50,27 +54,21 @@ export class Table extends ExcelComponent {
 
   onKeydown(e) {
     const $target = this.selection.current;
-    if (shouldSelectLeft(e)) {
+    if (shouldSelectByKeyPress(e)) {
       e.preventDefault();
-      const currentTargetRow = $target.id(true).row;
-      const currentTargetCol = $target.id(true).col === 0 ? $target.id(true).col : $target.id(true).col - 1;
-      const currentTargetId = `${currentTargetCol}-${currentTargetRow}`;
-      const $currentTarget = this.$root.find(`[data-id="${currentTargetId}"]`);
-      this.selection.select($currentTarget);
+      const nextId = getNextIdByKeycode($target.id(true), e.keyCode, this.rowsLength, this.colsLength);
+      const $nextTarget = this.$root.find(`[data-id="${nextId}"]`);
+      this.selection.select($nextTarget);
     }
-    if (shouldSelectRight(e)) {
+    if (shouldSelectByShiftTab(e)) {
       e.preventDefault();
-      const currentTargetRow = $target.id(true).row;
-      const currentTargetCol = $target.id(true).col === 0 ? $target.id(true).col : $target.id(true).col + 1;
-      const currentTargetId = `${currentTargetCol}-${currentTargetRow}`;
-      const $currentTarget = this.$root.find(`[data-id="${currentTargetId}"]`);
-      this.selection.select($currentTarget);
+      const nextId = getNextIdByKeycode($target.id(true), e.keyCode, this.rowsLength, this.colsLength, true);
+      const $nextTarget = this.$root.find(`[data-id="${nextId}"]`);
+      this.selection.select($nextTarget);
     }
   }
 
   toHtml() {
-    return createTable(40);
+    return createTable(this.rowsLength, this.colsLength);
   }
 }
-
-

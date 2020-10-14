@@ -70,6 +70,14 @@ class Dom {
     }
   }
 
+  text(text) {
+    if (typeof text === 'string') {
+      this.$el.textContent = text;
+      return this;
+    } else {
+      return this.$el.textContent;
+    }
+  }
   on(eventName, callback) {
     this.$el.addEventListener(eventName, callback);
   }

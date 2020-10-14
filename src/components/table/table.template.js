@@ -36,22 +36,21 @@ const createChar = (charCode) => {
   return String.fromCharCode(charCode);
 };
 
-export const createTable = (rowsCount = 15) => {
-  const colsCount = CODES.Z - CODES.A + 1;
+export const createTable = (rowsCount = 15, colsCount = 26) => {
   const rowsArray = [];
 
   const cols = new Array(colsCount)
       .fill('')
-      .map((_, id)=>createChar(CODES.A + id))
-      .map((char, id)=>createCol(char, id))
+      .map((_, id) => createChar(CODES.A + id))
+      .map((char, id) => createCol(char, id))
       .join('');
 
   rowsArray.push(createRow(null, cols));
 
-  for (let row=0; row<rowsCount; row++) {
+  for (let row = 0; row < rowsCount; row++) {
     const cells = new Array(colsCount)
         .fill('')
-        .map((_, col) =>createCell(col, row))
+        .map((_, col) => createCell(col, row))
         .join('');
     rowsArray.push(createRow(row+1, cells));
   }
