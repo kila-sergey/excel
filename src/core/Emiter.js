@@ -7,7 +7,7 @@ export default class Emiter {
     if (!Array.isArray(this.listeners[eventName])) {
       return false;
     }
-    this.listeners[eventName].forEach((listener)=>listener(...args));
+    this.listeners[eventName].forEach((listener) => listener(...args));
   }
 
   subscribe(eventName, fn) {
@@ -15,7 +15,7 @@ export default class Emiter {
     this.listeners[eventName].push(fn);
     return () => {
       this.listeners[eventName] = this.listeners[eventName]
-          .filter((listener)=> !listener !== fn);
+          .filter((listener)=> listener !== fn);
     };
   }
 }

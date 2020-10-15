@@ -5,6 +5,7 @@ import {
   shouldResize, shouldSelect, shouldSelectGroup, shouldSelectMultiple,
   shouldSelectByKeyPress, shouldSelectByShiftTab, cellsMatrix, getNextIdByKeycode,
 } from '../../helpers/table.helpers';
+import {FORMULA_INPUT, FORMULA_DONE, CELL_SELECT, CELL_INPUT} from '../../constants/listeners.constants';
 import TableSelection from './TableSelection';
 import {$} from '../../core/dom-helper';
 export class Table extends ExcelComponent {
@@ -13,7 +14,7 @@ export class Table extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input'],
       ...options,
     });
     this.rowsLength = 40;
@@ -26,9 +27,15 @@ export class Table extends ExcelComponent {
 
   init() {
     super.init();
-    const selectedCell = this.$root.find('[data-id="0-0"]');
-    this.selection.select(selectedCell);
-    this.emiter.subscribe('formula_check', (text)=>this.selection.current.text(text));
+    const $selectedCell = this.$root.find('[data-id="0-0"]');
+    this.$on(FORMULA_INPUT, (text)=>this.selection.current.text(text));
+    this.$on(FORMULA_DONE, () => this.selection.select(this.selection.current));
+    this.selectCell($selectedCell);
+  }
+
+  selectCell($cell) {
+    this.selection.select($cell);
+    this.$emit(CELL_SELECT, $cell.text());
   }
 
   onMousedown(e) {
@@ -47,7 +54,7 @@ export class Table extends ExcelComponent {
       } else if (shouldSelectMultiple(e)) {
         this.selection.selectMultiple($target);
       } else {
-        this.selection.select($target);
+        this.selectCell($target);
       }
     }
   }
@@ -58,14 +65,18 @@ export class Table extends ExcelComponent {
       e.preventDefault();
       const nextId = getNextIdByKeycode($target.id(true), e.keyCode, this.rowsLength, this.colsLength);
       const $nextTarget = this.$root.find(`[data-id="${nextId}"]`);
-      this.selection.select($nextTarget);
+      this.selectCell($nextTarget);
     }
     if (shouldSelectByShiftTab(e)) {
       e.preventDefault();
       const nextId = getNextIdByKeycode($target.id(true), e.keyCode, this.rowsLength, this.colsLength, true);
       const $nextTarget = this.$root.find(`[data-id="${nextId}"]`);
-      this.selection.select($nextTarget);
+      this.selectCell($nextTarget);
     }
+  }
+
+  onInput(e) {
+    this.$emit(CELL_INPUT, $(e.target).text());
   }
 
   toHtml() {

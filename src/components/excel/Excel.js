@@ -32,6 +32,10 @@ export class Excel {
   // Render the html-template
   render() {
     this.$el.append(this.getRoot('excel'));
-    this.components.forEach((component)=>component.init());
+    this.components.forEach((component) => component.init());
+  }
+
+  destroy() {
+    this.components.forEach((component) => component.destroy());
   }
 }

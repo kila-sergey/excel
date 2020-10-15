@@ -78,6 +78,7 @@ class Dom {
       return this.$el.textContent;
     }
   }
+  
   on(eventName, callback) {
     this.$el.addEventListener(eventName, callback);
   }
