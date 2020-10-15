@@ -7,6 +7,7 @@ class Dom {
 
   addClass(className) {
     this.$el.classList.add(className);
+    return this.$el;
   }
 
   append(node) {
@@ -35,6 +36,17 @@ class Dom {
     return this;
   }
 
+  id(shouldParse) {
+    if (shouldParse) {
+      const id= this.id().split('-');
+      return {
+        col: +id[0],
+        row: +id[1],
+      };
+    }
+    return this.data.id;
+  }
+
   find(selector) {
     return $(this.$el.querySelector(selector));
   }
@@ -43,6 +55,10 @@ class Dom {
     const items = [];
     this.$el.querySelectorAll(selector).forEach((item)=>items.push($(item)));
     return items;
+  }
+
+  focus() {
+    this.$el.focus();
   }
 
   html(html) {
@@ -54,6 +70,15 @@ class Dom {
     }
   }
 
+  text(text) {
+    if (typeof text === 'string') {
+      this.$el.textContent = text;
+      return this;
+    } else {
+      return this.$el.textContent;
+    }
+  }
+  
   on(eventName, callback) {
     this.$el.addEventListener(eventName, callback);
   }
@@ -66,6 +91,7 @@ class Dom {
     if (this.$el.classList.contains(className)) {
       this.$el.classList.remove(className);
     }
+    return this.$el;
   }
 
   getCords() {

@@ -15,17 +15,17 @@ export const resizeHandler = (e, $root) => {
   document.onmousemove = (e) => {
     const delta = e[isColumn ? 'pageX' : 'pageY'] - cords[isColumn ? 'right' : 'bottom'];
     totalSize = delta + cords[isColumn ? 'width' : 'height'];
-    $resizableRoot.css(isColumn?
-      {width: `${totalSize}px`}:
-      {height: `${totalSize}px`});
+    isColumn ?
+    $resizableRoot.css({width: `${totalSize}px`}) :
+    $resizer.css({bottom: `${-5 -delta}px`});
   };
 
   document.onmouseup = () => {
     $resizer.removeClass('visible');
+    $resizer.css({bottom: '-5px'});
     resizableElements.forEach((item)=>item.css(isColumn?
       {width: `${totalSize>=MIN_COLUMN_WIDTH ? totalSize : MIN_COLUMN_WIDTH}px`}:
       {height: `${totalSize>=MIN_ROW_HEIGHT ? totalSize : MIN_ROW_HEIGHT}px`}));
-
     document.onmousemove = null;
     document.onmouseup = null;
   };

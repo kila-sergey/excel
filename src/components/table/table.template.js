@@ -26,9 +26,9 @@ const createCol = (char, number) => {
   `;
 };
 
-const createCell = (colNumber) => {
+const createCell = (colNumber, rowNumber) => {
   return `
-    <div class="cell" contenteditable data-col=${colNumber}></div>
+    <div class="cell" contenteditable data-col=${colNumber} data-id="${colNumber}-${rowNumber}" data-type="cell"></div>
   `;
 };
 
@@ -36,25 +36,23 @@ const createChar = (charCode) => {
   return String.fromCharCode(charCode);
 };
 
-export const createTable = (rowsCount = 15) => {
-  const colsCount = CODES.Z - CODES.A + 1;
+export const createTable = (rowsCount = 15, colsCount = 26) => {
   const rowsArray = [];
 
   const cols = new Array(colsCount)
       .fill('')
-      .map((_, id)=>createChar(CODES.A + id))
-      .map((char, id)=>createCol(char, id))
-      .join('');
-
-  const cells = new Array(colsCount)
-      .fill('')
-      .map((_, id) =>createCell(id))
+      .map((_, id) => createChar(CODES.A + id))
+      .map((char, id) => createCol(char, id))
       .join('');
 
   rowsArray.push(createRow(null, cols));
 
-  for (let i=0; i<rowsCount; i++) {
-    rowsArray.push(createRow(i+1, cells));
+  for (let row = 0; row < rowsCount; row++) {
+    const cells = new Array(colsCount)
+        .fill('')
+        .map((_, col) => createCell(col, row))
+        .join('');
+    rowsArray.push(createRow(row+1, cells));
   }
 
   return rowsArray.join('');
